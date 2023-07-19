@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.10"]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -22,4 +22,4 @@ jobs:
         pip install black isort
     
     - name: black
-      run: black --check --line-length=119 --exclude /migrations .
+      run: black --check --line-length=120 --exclude /migrations .
