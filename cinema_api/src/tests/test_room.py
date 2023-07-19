@@ -14,6 +14,9 @@ def test_success_create_room(access_headers):
 
 
 def test_get_all_rooms(access_headers):
+    """
+    test all rows
+    """
     response = requests.get(
         "http://localhost/cinema_v1/rooms/",
         headers=access_headers,
