@@ -19,9 +19,7 @@ async def get_owner_room(
 ) -> Optional[RoomModel]:
     room = await service.get_owner_room(user=user)
     if not room:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="User room not found!"
-        )
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User room not found!")
     return room
 
 
@@ -36,17 +34,13 @@ async def create_room(
     user: CustomUser = Depends(JWTBearer()),
     service: RoomService = Depends(get_room_service),
 ) -> ResponseModel:
-    error = await service.create_user_room(
-        user_id=user.pk, film_work_uuid=film_work_uuid
-    )
+    error = await service.create_user_room(user_id=user.pk, film_work_uuid=film_work_uuid)
     if error:
         return ResponseModel(success=False, errors=[error])
 
     room = await service.get_owner_room(user=user)
     if not room:
-        raise HTTPException(
-            status_code=HTTPStatus.NOT_FOUND, detail="User room not found!"
-        )
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="User room not found!")
     return ResponseModel(success=True, data={"room_id": room.id})
 
 
@@ -142,7 +136,5 @@ async def get_room(
 ) -> RoomModel:
     room = await service.get_room(user=user, room_id=room_id)
     if not room:
-        raise HTTPException(
-            status_code=HTTPStatus.FORBIDDEN, detail="Permission denied!"
-        )
+        raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Permission denied!")
     return room

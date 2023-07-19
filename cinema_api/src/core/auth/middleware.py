@@ -23,9 +23,7 @@ class JWTBearer(HTTPBearer):
         )
         custom_logger.info(request)
 
-        credentials: HTTPAuthorizationCredentials = await super(
-            JWTBearer, self
-        ).__call__(request)
+        credentials: HTTPAuthorizationCredentials = await super(JWTBearer, self).__call__(request)
         if credentials:
             if not credentials.scheme == "Bearer":
                 raise HTTPException(
@@ -33,11 +31,7 @@ class JWTBearer(HTTPBearer):
                     detail="Invalid authentication scheme.",
                 )
 
-            is_token_valid = (
-                await self.verify_jwt(credentials.credentials)
-                if settings.verify_jwt_mode
-                else True
-            )
+            is_token_valid = await self.verify_jwt(credentials.credentials) if settings.verify_jwt_mode else True
             if not is_token_valid:
                 raise HTTPException(
                     status_code=HTTPStatus.UNAUTHORIZED,
@@ -56,21 +50,15 @@ class JWTBearer(HTTPBearer):
                     last_name=jwt_decoded["last_name"],
                 )
             except KeyError:
-                raise HTTPException(
-                    status_code=HTTPStatus.UNAUTHORIZED, detail="Bad signature for user"
-                )
+                raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED, detail="Bad signature for user")
 
             return auth_user
         else:
-            raise HTTPException(
-                status_code=HTTPStatus.FORBIDDEN, detail="Invalid authorization code."
-            )
+            raise HTTPException(status_code=HTTPStatus.FORBIDDEN, detail="Invalid authorization code.")
 
     async def verify_jwt(self, jwtoken: str) -> bool:
         async with httpx.AsyncClient() as client:
-            response = await client.get(
-                settings.verify_jwt_url, headers={"Authorization": "Bearer " + jwtoken}
-            )
+            response = await client.get(settings.verify_jwt_url, headers={"Authorization": "Bearer " + jwtoken})
         if response.status_code == HTTPStatus.OK:
             return True
         else:

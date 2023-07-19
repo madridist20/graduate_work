@@ -10,6 +10,4 @@ class BaseService:
         self.redis = redis
 
     def get_session(self) -> AsyncSession:
-        return async_sessionmaker(
-            self.db_connection, expire_on_commit=False, class_=AsyncSession
-        )()
+        return async_sessionmaker(self.db_connection, expire_on_commit=False, class_=AsyncSession)()

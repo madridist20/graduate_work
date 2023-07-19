@@ -19,13 +19,9 @@ app_v1_blueprint = Blueprint("v1", __name__)
 app_v1_blueprint.add_url_rule("/check_perm", methods=["GET"], view_func=check_perm)
 app_v1_blueprint.add_url_rule("/delete_user", methods=["POST"], view_func=delete)
 app_v1_blueprint.add_url_rule("/change_login", methods=["POST"], view_func=change_login)
-app_v1_blueprint.add_url_rule(
-    "/change_password", methods=["POST"], view_func=change_password
-)
+app_v1_blueprint.add_url_rule("/change_password", methods=["POST"], view_func=change_password)
 app_v1_blueprint.add_url_rule("/login", methods=["POST"], view_func=login)
-app_v1_blueprint.add_url_rule(
-    "/login_history", methods=["GET"], view_func=login_history
-)
+app_v1_blueprint.add_url_rule("/login_history", methods=["GET"], view_func=login_history)
 app_v1_blueprint.add_url_rule("/logout", methods=["DELETE"], view_func=logout)
 app_v1_blueprint.add_url_rule("/refresh", methods=["GET"], view_func=refresh)
 app_v1_blueprint.add_url_rule("/sign_up", methods=["POST"], view_func=sign_up)
@@ -40,9 +36,7 @@ app_v1_blueprint.add_url_rule("/assign_role", methods=["POST"], view_func=assign
 app_v1_blueprint.add_url_rule("/detach_role", methods=["DELETE"], view_func=detach_role)
 
 app_v1_blueprint.add_url_rule("/add_friend", methods=["POST"], view_func=add_friend)
-app_v1_blueprint.add_url_rule(
-    "/delete_friend", methods=["DELETE"], view_func=delete_friend
-)
+app_v1_blueprint.add_url_rule("/delete_friend", methods=["DELETE"], view_func=delete_friend)
 app_v1_blueprint.add_url_rule("/friends_list", methods=["GET"], view_func=friends_list)
 
 app_v1_blueprint.add_url_rule("/user_info", methods=["GET"], view_func=user_info)

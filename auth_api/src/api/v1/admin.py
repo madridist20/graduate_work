@@ -12,9 +12,7 @@ from werkzeug.security import generate_password_hash
 @click.argument("password", envvar="SUPERUSER_PASS")
 @with_appcontext
 def create_admin_role(login, password):
-    engine = create_engine(
-        SQLALCHEMY_DATABASE_URI, isolation_level="REPEATABLE READ", echo=True
-    )
+    engine = create_engine(SQLALCHEMY_DATABASE_URI, isolation_level="REPEATABLE READ", echo=True)
     with Session(engine) as session:
         admin_user = session.query(User).filter(User.login == login).first()
         if not admin_user:

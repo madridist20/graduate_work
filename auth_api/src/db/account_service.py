@@ -24,9 +24,7 @@ def add_record_to_login_history(id: uuid, user_agent: str) -> None:
     db.session.commit()
 
 
-def create_user(
-    login: str, password: str, first_name: str, last_name: str, email: str = None
-) -> User:
+def create_user(login: str, password: str, first_name: str, last_name: str, email: str = None) -> User:
     hashed_password = generate_password_hash(password)
     new_user = User(
         login=login,

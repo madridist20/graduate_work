@@ -15,21 +15,15 @@ from src.db.roles_service import get_user_primary_role
 SWAGGER_URL = "/auth_api/docs/"
 API_URL = "/auth_api/static/swagger_config.yaml"
 swagger_blueprint = get_swaggerui_blueprint(SWAGGER_URL, API_URL)
-limiter = Limiter(
-    key_func=get_remote_address, default_limits=["300 per day", "60 per hour"]
-)
+limiter = Limiter(key_func=get_remote_address, default_limits=["300 per day", "60 per hour"])
 
 
 def create_app():
     app = Flask(__name__)
 
     app.config["JWT_SECRET_KEY"] = project_settings.secret_key
-    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(
-        seconds=redis_settings.access_expires_in_seconds
-    )
-    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(
-        seconds=redis_settings.refresh_expires_in_seconds
-    )
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(seconds=redis_settings.access_expires_in_seconds)
+    app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(seconds=redis_settings.refresh_expires_in_seconds)
     app.config["RATELIMIT_STORAGE_URL"] = redis_settings.ratelimit_storage_url
     limiter.init_app(app)
 

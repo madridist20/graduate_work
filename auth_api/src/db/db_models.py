@@ -77,15 +77,11 @@ class LoginHistory(db.Model):
         },
     )
 
-    id = db.Column(
-        UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False
-    )
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
     user_id = db.Column(UUID(as_uuid=True), ForeignKey(User.id, ondelete="CASCADE"))
     user = db.relationship(User, backref=db.backref("login_history", lazy=True))
     user_agent = db.Column(db.String(300), nullable=False)
-    auth_date = db.Column(
-        db.DateTime, nullable=False, primary_key=True, default=datetime.datetime.now()
-    )
+    auth_date = db.Column(db.DateTime, nullable=False, primary_key=True, default=datetime.datetime.now())
 
 
 class Roles(db.Model):

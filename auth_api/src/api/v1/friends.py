@@ -22,9 +22,7 @@ def add_friend():
     if status is False:
         return make_response("User already in friends list", HTTPStatus.BAD_REQUEST)
 
-    return jsonify(
-        msg=f"Friend {current_user.login} was add to user {friend_user.login} friends list"
-    )
+    return jsonify(msg=f"Friend {current_user.login} was add to user {friend_user.login} friends list")
 
 
 @jwt_required()
@@ -39,9 +37,7 @@ def delete_friend():
     if status is False:
         return make_response("User not in friends list", HTTPStatus.BAD_REQUEST)
 
-    return jsonify(
-        msg=f"Friend {friend_user.login} was delete from user {friend_user.login} friends list"
-    )
+    return jsonify(msg=f"Friend {friend_user.login} was delete from user {friend_user.login} friends list")
 
 
 @jwt_required()

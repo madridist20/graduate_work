@@ -57,9 +57,7 @@ def login():
             "last_name": user_model.last_name,
         }
 
-        access_token = create_access_token(
-            identity=user_model.id, additional_claims=additional_claims, fresh=True
-        )
+        access_token = create_access_token(identity=user_model.id, additional_claims=additional_claims, fresh=True)
         refresh_token = create_refresh_token(
             identity=user_model.id,
             additional_claims=additional_claims,
@@ -153,9 +151,7 @@ def refresh():
     }
 
     if jti == cache_token_jti:
-        access_token = create_access_token(
-            identity=identity, additional_claims=additional_claims, fresh=True
-        )
+        access_token = create_access_token(identity=identity, additional_claims=additional_claims, fresh=True)
         refresh_token = create_refresh_token(
             identity=identity,
             additional_claims=additional_claims,
@@ -197,19 +193,13 @@ def sign_up():
 
     additional_claims = {"first_name": first_name, "last_name": last_name}
 
-    access_token = create_access_token(
-        identity=new_user.id, additional_claims=additional_claims, fresh=True
-    )
-    refresh_token = create_refresh_token(
-        identity=new_user.id, additional_claims=additional_claims
-    )
+    access_token = create_access_token(identity=new_user.id, additional_claims=additional_claims, fresh=True)
+    refresh_token = create_refresh_token(identity=new_user.id, additional_claims=additional_claims)
     user_agent = request.headers["user_agent"]
 
     add_record_to_login_history(new_user.id, user_agent)
 
     refresh_key = ":".join(("refresh", user_agent, str(new_user.id)))
-    redis_cache._put_token(
-        refresh_key, get_jti(refresh_token), redis_settings.refresh_expires_in_seconds
-    )
+    redis_cache._put_token(refresh_key, get_jti(refresh_token), redis_settings.refresh_expires_in_seconds)
 
     return jsonify(access_token=access_token, refresh_token=refresh_token)

@@ -48,6 +48,4 @@ class RoomUser(Base):
 
     room_uuid = Column(ForeignKey("cinema_together_room.id"))
 
-    __table_args__ = (
-        UniqueConstraint("user_uuid", "room_uuid", name="unique_room_user"),
-    )
+    __table_args__ = (UniqueConstraint("user_uuid", "room_uuid", name="unique_room_user"),)

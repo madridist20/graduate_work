@@ -40,10 +40,7 @@ class ProcessRequestMiddleware(MiddlewareMixin):
             if user.is_authenticated:
                 response = requests.get(
                     VERIFY_JWT_URL,
-                    headers={
-                        "Authorization": "Bearer "
-                        + request.user.profile.external_access_token
-                    },
+                    headers={"Authorization": "Bearer " + request.user.profile.external_access_token},
                 )
                 if response.status_code == HTTPStatus.OK:
                     return
@@ -52,10 +49,7 @@ class ProcessRequestMiddleware(MiddlewareMixin):
                     # пробуем получить новый access token
                     response = requests.get(
                         REFRESH_JWT_URL,
-                        headers={
-                            "Authorization": "Bearer "
-                            + request.user.profile.external_refresh_token
-                        },
+                        headers={"Authorization": "Bearer " + request.user.profile.external_refresh_token},
                     )
                     if response.status_code == HTTPStatus.OK:
                         data = response.json()
@@ -67,10 +61,7 @@ class ProcessRequestMiddleware(MiddlewareMixin):
                         logger.info(f"refresh_jwt smt wrong: {response}")
                         requests.delete(
                             LOGOUT_JWT_URL,
-                            headers={
-                                "Authorization": "Bearer "
-                                + request.user.profile.external_access_token
-                            },
+                            headers={"Authorization": "Bearer " + request.user.profile.external_access_token},
                         )
                         auth.logout(request)
                         return HttpResponseRedirect("/login")

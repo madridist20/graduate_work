@@ -12,9 +12,7 @@ class TimeStampedMixin(models.Model):
 
 
 class UUIDMixin(models.Model):
-    id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False
-    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True, null=False)
 
     class Meta:
         abstract = True
@@ -49,9 +47,7 @@ class RoomUser(UUIDMixin, TimeStampedMixin):
         default=RoomUserType.pending,
         max_length=8,
     )
-    room = models.ForeignKey(
-        "Room", db_column="room_uuid", null=True, on_delete=models.CASCADE
-    )
+    room = models.ForeignKey("Room", db_column="room_uuid", null=True, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "cinema_together_room_user"
