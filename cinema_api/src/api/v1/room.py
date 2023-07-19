@@ -23,7 +23,12 @@ async def get_owner_room(
     return room
 
 
-@room_router.post("/{film_work_uuid}", response_model=ResponseModel)
+@room_router.post(
+    "/{film_work_uuid}",
+    response_model=ResponseModel,
+    summary="Create room",
+    description="Создание комнаты на id фильма"
+)
 async def create_room(
     film_work_uuid: str,
     user: CustomUser = Depends(JWTBearer()),
@@ -39,7 +44,12 @@ async def create_room(
     return ResponseModel(success=True, data={"room_id": room.id})
 
 
-@room_router.delete("/delete", response_model=ResponseModel)
+@room_router.delete(
+    "/delete",
+    response_model=ResponseModel,
+    summary="Delete room",
+    description="Удаление команты пользователя"
+)
 async def delete_room(
     user: CustomUser = Depends(JWTBearer()),
     service: RoomService = Depends(get_room_service),
@@ -50,7 +60,12 @@ async def delete_room(
     return ResponseModel(success=True)
 
 
-@room_router.get("/users", response_model=List[RoomUserModel])
+@room_router.get(
+    "/users",
+    response_model=List[RoomUserModel],
+    summary="Get room users",
+    description="Получение списка пользователей в команте"
+)
 async def get_room_users(
     user: CustomUser = Depends(JWTBearer()),
     service: RoomService = Depends(get_room_service),
@@ -58,7 +73,12 @@ async def get_room_users(
     return await service.get_room_users(user=user)
 
 
-@room_router.get("/rooms", response_model=List[RoomModel])
+@room_router.get(
+    "/rooms",
+    response_model=List[RoomModel],
+    summary="Get user rooms",
+    description="Получение списка комант пользователя"
+)
 async def get_rooms(
     user: CustomUser = Depends(JWTBearer()),
     service: RoomService = Depends(get_room_service),
@@ -66,7 +86,12 @@ async def get_rooms(
     return await service.get_rooms(user=user)
 
 
-@room_router.post("/{room_id}/join", response_model=ResponseModel)
+@room_router.post(
+    "/{room_id}/join",
+    response_model=ResponseModel,
+    summary="Join to room",
+    description="Подключение к конкреткой комнате"
+)
 async def join(
     room_id: UUID,
     user: CustomUser = Depends(JWTBearer()),
@@ -81,7 +106,12 @@ async def join(
     return ResponseModel(success=True)
 
 
-@room_router.post("/{user_id}/invite", response_model=ResponseModel)
+@room_router.post(
+    "/{user_id}/invite",
+    response_model=ResponseModel,
+    summary="Invite user to room",
+    description="Приглашение пользователя в комнату по user_id"
+)
 async def invite(
     user_id: UUID,
     user: CustomUser = Depends(JWTBearer()),
@@ -93,7 +123,13 @@ async def invite(
     return ResponseModel(success=True)
 
 
-@room_router.get("/{room_id}", response_model=RoomModel)
+@room_router.get(
+    "/{room_id}",
+    response_model=RoomModel,
+    summary="Get room info",
+    description="Получение информации о комнате по room_id"
+
+)
 async def get_room(
     room_id: UUID,
     user: CustomUser = Depends(JWTBearer()),

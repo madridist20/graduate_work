@@ -18,7 +18,7 @@ class Room(Base):
 
     film_work_uuid = Column(UUID(as_uuid=True), nullable=False, default=uuid.uuid4)
     film_work_time = Column(Float, nullable=True)
-    film_work_state = Column(String, nullable=True)
+    film_work_state = Column(String(20), nullable=True)
 
     room_users = relationship("RoomUser", cascade="all, delete")
 
@@ -32,7 +32,7 @@ class RoomUser(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
     user_uuid = Column(UUID(as_uuid=True))
-    user_type = Column(String)
+    user_type = Column(String(150))
 
     room_uuid = Column(ForeignKey("cinema_together_room.id"))
 
