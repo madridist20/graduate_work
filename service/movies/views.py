@@ -14,7 +14,11 @@ def index(request):
     return render(
         request,
         "index.html",
-        {"film_works_data": list(Film.objects.all().values("id", "film_work_name", "film_work_url_id"))},
+        {
+            "film_works_data": list(
+                Film.objects.all().values("id", "film_work_name", "film_work_url_id")
+            )
+        },
     )
 
 
@@ -86,7 +90,9 @@ def login(request):
 
             return HttpResponseRedirect("/")
         else:
-            return render(request, "login.html", {"err": "Пользователь не зарегистрирован"})
+            return render(
+                request, "login.html", {"err": "Пользователь не зарегистрирован"}
+            )
     else:
         return render(request, "login.html")
 
@@ -98,7 +104,9 @@ def register(request):
         first_name = request.POST["first_name"]
         last_name = request.POST["last_name"]
         if User.objects.filter(username=username).exists():
-            return render(request, "register.html", {"err": "Пользователь уже зарегистрирован"})
+            return render(
+                request, "register.html", {"err": "Пользователь уже зарегистрирован"}
+            )
         else:
             response = requests.post(
                 SIGNUP_JWT_URL,
@@ -111,7 +119,9 @@ def register(request):
             )
             if response.status_code == HTTPStatus.OK:
                 data = response.json()
-                new_user = User.objects.create_user(username=username, password=password)
+                new_user = User.objects.create_user(
+                    username=username, password=password
+                )
                 new_user.profile.external_access_token = data["access_token"]
                 new_user.profile.external_refresh_token = data["refresh_token"]
                 new_user.profile.save()
@@ -120,7 +130,11 @@ def register(request):
                 auth.login(request, user)
                 return HttpResponseRedirect("/login")
             else:
-                return render(request, "register.html", {"err": "Пользователь с такими данными уже зарегистрирован"})
+                return render(
+                    request,
+                    "register.html",
+                    {"err": "Пользователь с такими данными уже зарегистрирован"},
+                )
     else:
         return render(request, "register.html")
 
@@ -128,7 +142,9 @@ def register(request):
 def logout(request):
     requests.delete(
         LOGOUT_JWT_URL,
-        headers={"Authorization": "Bearer " + request.user.profile.external_access_token},
+        headers={
+            "Authorization": "Bearer " + request.user.profile.external_access_token
+        },
     )
     auth.logout(request)
     return HttpResponseRedirect("/login")

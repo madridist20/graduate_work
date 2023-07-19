@@ -12,7 +12,13 @@ class Room(Base):
     __tablename__ = "cinema_together_room"
 
     created_at = Column(DateTime, default=datetime.datetime.now())
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )
 
     owner_uuid = Column(UUID, nullable=False, unique=True)
 
@@ -30,10 +36,18 @@ class RoomUser(Base):
 
     created_at = Column(DateTime, default=datetime.datetime.now())
 
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    id = Column(
+        UUID(as_uuid=True),
+        primary_key=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )
     user_uuid = Column(UUID(as_uuid=True))
     user_type = Column(String(150))
 
     room_uuid = Column(ForeignKey("cinema_together_room.id"))
 
-    __table_args__ = (UniqueConstraint("user_uuid", "room_uuid", name="unique_room_user"),)
+    __table_args__ = (
+        UniqueConstraint("user_uuid", "room_uuid", name="unique_room_user"),
+    )

@@ -24,9 +24,15 @@ class RedisSettings(BaseSettings):
     # Настройки Redis
     redis_host: str = Field("127.0.0.1", env="REDIS_HOST")
     redis_port: int = Field(6379, env="REDIS_PORT")
-    access_expires_in_seconds: int = Field(timedelta(hours=1).seconds, env="ACCESS_EXPIRES_IN_SECONDS")
-    refresh_expires_in_seconds: int = Field(timedelta(days=90).seconds, env="REFRESH_EXPIRES_IN_SECONDS")
-    ratelimit_storage_url: str = Field("redis://redis:6379", env="RATELIMIT_STORAGE_URL")
+    access_expires_in_seconds: int = Field(
+        timedelta(hours=1).seconds, env="ACCESS_EXPIRES_IN_SECONDS"
+    )
+    refresh_expires_in_seconds: int = Field(
+        timedelta(days=90).seconds, env="REFRESH_EXPIRES_IN_SECONDS"
+    )
+    ratelimit_storage_url: str = Field(
+        "redis://redis:6379", env="RATELIMIT_STORAGE_URL"
+    )
 
 
 project_settings = ProjectSettings()

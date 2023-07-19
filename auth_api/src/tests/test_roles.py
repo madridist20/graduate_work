@@ -52,7 +52,10 @@ def test_roles_list(admin_headers):
     Тестирование вывода списка ролей
     """
 
-    response = requests.get(f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/roles_list', headers=admin_headers)
+    response = requests.get(
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/roles_list',
+        headers=admin_headers,
+    )
     assert response.status_code == HTTPStatus.OK
 
 

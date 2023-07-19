@@ -13,7 +13,15 @@ def user_info():
     users = get_all_users()
 
     output = {
-        "users": [{"id": _.id, "login": _.login, "first_name": _.first_name, "last_name": _.last_name} for _ in users],
+        "users": [
+            {
+                "id": _.id,
+                "login": _.login,
+                "first_name": _.first_name,
+                "last_name": _.last_name,
+            }
+            for _ in users
+        ],
         "friends": [friend.id for friend in friends],
     }
     return jsonify(output)

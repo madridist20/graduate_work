@@ -34,4 +34,12 @@ class Command(BaseCommand):
         )
         p.wait()
 
-        subprocess.run(["gunicorn", "example.wsgi:application", "--workers=2", "--bind", "0.0.0.0:8000"])
+        subprocess.run(
+            [
+                "gunicorn",
+                "example.wsgi:application",
+                "--workers=2",
+                "--bind",
+                "0.0.0.0:8000",
+            ]
+        )

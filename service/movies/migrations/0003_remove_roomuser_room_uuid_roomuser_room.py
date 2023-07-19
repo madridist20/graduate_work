@@ -5,9 +5,11 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ("movies", "0002_alter_room_film_work_state_alter_room_film_work_time_and_more"),
+        (
+            "movies",
+            "0002_alter_room_film_work_state_alter_room_film_work_time_and_more",
+        ),
     ]
 
     operations = [
@@ -19,7 +21,10 @@ class Migration(migrations.Migration):
             model_name="roomuser",
             name="room",
             field=models.ForeignKey(
-                db_column="room_uuid", default=1, on_delete=django.db.models.deletion.CASCADE, to="movies.room"
+                db_column="room_uuid",
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="movies.room",
             ),
             preserve_default=False,
         ),

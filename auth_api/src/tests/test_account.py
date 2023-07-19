@@ -53,7 +53,10 @@ def test_logout(access_headers):
     """
     Тестирование Logout
     """
-    response = requests.delete(f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/logout', headers=access_headers)
+    response = requests.delete(
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/logout',
+        headers=access_headers,
+    )
     assert response.status_code == HTTPStatus.OK
 
 
@@ -61,7 +64,10 @@ def test_refresh(refresh_headers):
     """
     Тестирование refresh
     """
-    response = requests.get(f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/refresh', headers=refresh_headers)
+    response = requests.get(
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/refresh',
+        headers=refresh_headers,
+    )
     assert response.status_code == HTTPStatus.OK
 
 
@@ -72,13 +78,18 @@ def test_sing_up():
     login = "test_signup"
     password = "qwerty"
     response = requests.post(
-        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up', data={"login": login, "password": password}
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up',
+        data={"login": login, "password": password},
     )
     assert response.status_code == HTTPStatus.OK
-    response = requests.post(f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up', data={"login": login})
+    response = requests.post(
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up',
+        data={"login": login},
+    )
     assert response.status_code == HTTPStatus.UNAUTHORIZED
     response = requests.post(
-        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up', data={"password": password}
+        f'{os.environ.get("SERVICE_URL", "http://nginx:80")}/v1/sign_up',
+        data={"password": password},
     )
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 

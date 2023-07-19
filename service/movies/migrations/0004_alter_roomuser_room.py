@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("movies", "0003_remove_roomuser_room_uuid_roomuser_room"),
     ]
@@ -15,7 +14,10 @@ class Migration(migrations.Migration):
             model_name="roomuser",
             name="room",
             field=models.ForeignKey(
-                db_column="room_uuid", null=True, on_delete=django.db.models.deletion.CASCADE, to="movies.room"
+                db_column="room_uuid",
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="movies.room",
             ),
         ),
     ]

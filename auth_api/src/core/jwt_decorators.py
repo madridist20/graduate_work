@@ -15,7 +15,9 @@ def roles_required(roles: List[str]):
             if any(item in token["roles"] for item in roles):
                 return fn(*args, **kwargs)
             else:
-                return make_response(f"Only ${roles} are allowed access", HTTPStatus.METHOD_NOT_ALLOWED)
+                return make_response(
+                    f"Only ${roles} are allowed access", HTTPStatus.METHOD_NOT_ALLOWED
+                )
 
         return decorator
 

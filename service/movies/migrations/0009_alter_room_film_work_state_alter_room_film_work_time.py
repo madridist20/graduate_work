@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('movies', '0008_film_film_work_url_id'),
+        ("movies", "0008_film_film_work_url_id"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='room',
-            name='film_work_state',
-            field=models.CharField(max_length=255, null=True, verbose_name='state'),
+            model_name="room",
+            name="film_work_state",
+            field=models.CharField(max_length=255, null=True, verbose_name="state"),
         ),
         migrations.AlterField(
-            model_name='room',
-            name='film_work_time',
-            field=models.FloatField(null=True, verbose_name='time'),
+            model_name="room",
+            name="film_work_time",
+            field=models.FloatField(null=True, verbose_name="time"),
         ),
     ]

@@ -53,7 +53,9 @@ def upgrade() -> None:
         ),
         sa.UniqueConstraint("user_id", "friend_id", name="unique_friendships"),
     )
-    op.create_index(op.f("ix_friendships_user_id"), "friendships", ["user_id"], unique=False)
+    op.create_index(
+        op.f("ix_friendships_user_id"), "friendships", ["user_id"], unique=False
+    )
     op.create_table(
         "login_history",
         sa.Column("id", postgresql.UUID(as_uuid=True), nullable=False),

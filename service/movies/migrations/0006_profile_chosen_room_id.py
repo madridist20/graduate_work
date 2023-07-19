@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("movies", "0005_alter_profile_external_access_token_and_more"),
     ]

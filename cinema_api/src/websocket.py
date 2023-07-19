@@ -42,7 +42,9 @@ class BasicAuthBackend(AuthenticationBackend):
                 headers={"Authorization": "Bearer " + credentials},
             )
         if response.status_code == HTTPStatus.OK:
-            jwt_decoded = jwt.decode(credentials, algorithms="HS256", options={"verify_signature": False})
+            jwt_decoded = jwt.decode(
+                credentials, algorithms="HS256", options={"verify_signature": False}
+            )
             return AuthCredentials(["authenticated"]), ExtendedSimpleUser(
                 username=jwt_decoded["sub"],
                 first_name=jwt_decoded["first_name"],
@@ -67,7 +69,9 @@ def get_ws_service(
     return WebsocketService(db_connection, redis)
 
 
-async def read_from_stream(room_id: str, service: WebsocketService, websocket: WebSocket):
+async def read_from_stream(
+    room_id: str, service: WebsocketService, websocket: WebSocket
+):
     while True:
         await service.read_from_stream(room_id=room_id, websocket=websocket)
 
@@ -75,15 +79,23 @@ async def read_from_stream(room_id: str, service: WebsocketService, websocket: W
 async def send_to_stream(room_id: str, websocket: WebSocket, service: WebsocketService):
     while True:
         message: str = await websocket.receive_text()
-        await service.stream_message(room_id=room_id, message=message, websocket=websocket)
+        await service.stream_message(
+            room_id=room_id, message=message, websocket=websocket
+        )
 
 
-async def stream_video_message(room_id: str, websocket: WebSocket, service: WebsocketService):
+async def stream_video_message(
+    room_id: str, websocket: WebSocket, service: WebsocketService
+):
     while True:
         actual_time = await websocket.receive_text()
 
-        await service.stream_message(room_id=f"{room_id}_roll", message=actual_time, websocket=websocket)
-        await service.update_user_room_time(room_id=room_id, actual_time=float(actual_time))
+        await service.stream_message(
+            room_id=f"{room_id}_roll", message=actual_time, websocket=websocket
+        )
+        await service.update_user_room_time(
+            room_id=room_id, actual_time=float(actual_time)
+        )
 
 
 @app.websocket("/ws/{room_id}/chat")
@@ -94,8 +106,12 @@ async def websocket_endpoint(
     service: WebsocketService = Depends(get_ws_service),
 ):
     await service.connect(room_id=room_id, websocket=websocket)
-    read = asyncio.create_task(read_from_stream(service=service, websocket=websocket, room_id=room_id))
-    write = asyncio.create_task(send_to_stream(service=service, websocket=websocket, room_id=room_id))
+    read = asyncio.create_task(
+        read_from_stream(service=service, websocket=websocket, room_id=room_id)
+    )
+    write = asyncio.create_task(
+        send_to_stream(service=service, websocket=websocket, room_id=room_id)
+    )
 
     try:
         await asyncio.gather(read, write)
@@ -111,8 +127,14 @@ async def websocket_endpoint_roll(
     service: WebsocketService = Depends(get_ws_service),
 ):
     await service.connect(room_id=room_id, websocket=websocket)
-    read = asyncio.create_task(read_from_stream(service=service, websocket=websocket, room_id=f"{room_id}_roll"))
-    write = asyncio.create_task(stream_video_message(service=service, websocket=websocket, room_id=room_id))
+    read = asyncio.create_task(
+        read_from_stream(
+            service=service, websocket=websocket, room_id=f"{room_id}_roll"
+        )
+    )
+    write = asyncio.create_task(
+        stream_video_message(service=service, websocket=websocket, room_id=room_id)
+    )
 
     try:
         await asyncio.gather(read, write)
